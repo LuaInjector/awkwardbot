@@ -1,13 +1,13 @@
 {
   "name": "rias",
   "version": "1.0.0",
-  "description": "",
+  "description": "Minimal telegram bot",
   "main": "index.js",
   "scripts": {
     "rias": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Lua Injector",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
