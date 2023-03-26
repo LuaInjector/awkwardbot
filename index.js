@@ -21,15 +21,13 @@ for (const folder of commandFolders) {
     if ("execute" in command) {
         if (command.messageType == "text") {
             client.on(message(command.messageType), (ctx) => {
-                if (ctx.message.text == `/${command.commandName}`) {
+                if (ctx.message.text.startsWith(`/${command.commandName}`)) {
                     command.execute(ctx)
                 }
             })
         } else {
             client.on(message(command.messageType), (ctx) => {
-                if (ctx.message.text == `/${command.commandName}`) {
-                    command.execute(ctx)
-                }
+                command.execute(ctx)
             })
         }
     } else {
