@@ -10,21 +10,32 @@ client.start((ctx) => {
 
 // --- command handler ---
 const fs = require("fs")
-const path = require("path")
 
-const commandsPath = path.join(__dirname, "commands")
-const commandsFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"))
+const commandFolders = fs.readdirSync('./commands')
 
-for (file of commandsFiles) {
-    const filePath = path.join(commandsPath, file)
-    const command = require(filePath)
+for (const folder of commandFolders) {
+    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith('.js'))
+
+  for (const file of commandFiles) {
+    const command = require(`./commands/${folder}/${file}`)
     if ("execute" in command) {
-        client.on(message(command.messageType), (ctx) => {
-            if (ctx.message.text == `/${command.commandName}`) {
-                command.execute(ctx)
-            }
-        })
+        if (command.messageType == "text") {
+            client.on(message(command.messageType), (ctx) => {
+                if (ctx.message.text == `/${command.commandName}`) {
+                    command.execute(ctx)
+                }
+            })
+        } else {
+            client.on(message(command.messageType), (ctx) => {
+                if (ctx.message.text == `/${command.commandName}`) {
+                    command.execute(ctx)
+                }
+            })
+        }
+    } else {
+        console.log(`[WARNING] The command \`${file}\` is missing the required \`execute\` property`);
     }
+  }
 }
 // --- command handler ---
 
