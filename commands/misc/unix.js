@@ -1,7 +1,7 @@
 module.exports = {
     messageType: "text",
     commandName: "unix",
-    commandDescription: "Sends the bot\'s latency",
+    commandDescription: "Converts UNIX timestamp to date",
     
     execute(ctx) {
         const message = ctx.message.text
