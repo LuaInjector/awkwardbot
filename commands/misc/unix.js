@@ -2,6 +2,7 @@ module.exports = {
     messageType: "text",
     commandName: "unix",
     commandDescription: "Converts UNIX timestamp to date",
+    onlyIn: false,
     
     execute(ctx, args) {
         if (!args[0]) {
