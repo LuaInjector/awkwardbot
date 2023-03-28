@@ -33,11 +33,10 @@ client.on("text", (ctx) => {
     const args = ctx.message.text.slice(_PREFIX.length).split(/ +/g)
     const command = args.shift()
 
-    // TODO: if typeof(commandName) is an array, execute the command when one of the elements is called
-    const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => cmd.commandName === command)
+    const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.indexOf(command) >= 0) : (cmd.commandName === command))
     
     if (typeof commandFinder !== "undefined" && commandFinder.execute) {
-        commandFinder.execute(ctx, args);
+        commandFinder.execute(ctx, args)
     } else {
         return
     }
