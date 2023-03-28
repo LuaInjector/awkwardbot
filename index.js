@@ -10,31 +10,42 @@ client.start((ctx) => {
 
 // --- command handler ---
 const fs = require("fs")
+const path = require("path")
 
-const commandFolders = fs.readdirSync('./commands')
+const _COMMANDSFOLDER = "./commands"
+const _PREFIX = "/"
 
-for (const folder of commandFolders) {
-    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith('.js'))
+const commandsFolder = fs.readdirSync(_COMMANDSFOLDER).map(k => path.join(process.cwd(), _COMMANDSFOLDER, k)).filter(v => fs.statSync(v).isDirectory())
+var commands = []
 
-  for (const file of commandFiles) {
-    const command = require(`./commands/${folder}/${file}`)
-    if ("execute" in command) {
-        if (command.messageType == "text") {
-            client.on(message(command.messageType), (ctx) => {
-                if (ctx.message.text.startsWith(`/${command.commandName}`)) {
-                    command.execute(ctx)
-                }
-            })
-        } else {
-            client.on(message(command.messageType), (ctx) => {
-                command.execute(ctx)
-            })
-        }
-    } else {
-        console.log(`[WARNING] The command \`${file}\` is missing the required \`execute\` property`);
-    }
-  }
+for(const folder of commandsFolder) {
+    const categoryFiles = fs.readdirSync(folder).map(k => path.join(folder, k)).filter(v => fs.statSync(v).isFile() && v.endsWith(".js"))
+    
+ for(const file of categoryFiles){
+     try {
+         const script = require(file)
+         
+         commands.push(script)
+     } catch(err){
+         console.error(`Unable to import "${file}":`, err.stack)
+     }
+ }
 }
+
+client.on("text", (ctx) => {
+    if(!ctx.message.text.startsWith(_PREFIX)) return 
+    
+    const args = ctx.message.text.slice(_PREFIX.length).split(/ +/g)
+    const command = args.shift()
+
+    const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => cmd.commandName === command)
+    
+    if(typeof commandFinder !== "undefined" && commandFinder.execute) {
+        commandFinder.execute(ctx, args);
+    } else {
+        return
+    }
+})
 // --- command handler ---
 
 client.launch()
