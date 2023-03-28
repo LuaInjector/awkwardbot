@@ -33,7 +33,7 @@ client.on("text", (ctx) => {
     const args = ctx.message.text.slice(_PREFIX.length).split(/ +/g)
     const command = args.shift()
 
-    const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.indexOf(command) >= 0) : (cmd.commandName === command))
+    const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.includes(command)) : (cmd.commandName === command))
     
     if (typeof commandFinder !== "undefined" && commandFinder.execute) {
         commandFinder.execute(ctx, args)
