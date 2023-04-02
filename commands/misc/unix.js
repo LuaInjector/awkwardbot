@@ -1,5 +1,6 @@
 module.exports = {
     messageType: "text",
+    onlyIn: false,
     commandName: "unix",
     commandDescription: "Converts UNIX timestamp to date",
     

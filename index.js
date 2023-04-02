@@ -36,9 +36,10 @@ client.on("text", (ctx) => {
     const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.includes(command)) : (cmd.commandName === command))
     
     if (typeof commandFinder !== "undefined" && commandFinder.execute) {
-        commandFinder.execute(ctx, args)
-    } else {
-        return
+        if (commandFinder.onlyIn === "group" && ["group", "supergroup"].every(k => k !== ctx.message.chat.type)) return ctx.replyWithMarkdown("❌ *Error*\nThis command can only be used in Groups!")
+        if (commandFinder.onlyIn === "dm" && (ctx.message.chat.type !== "private")) return ctx.replyWithMarkdown("❌ *Error*\nThis command can only be used in DM!")
+    
+        commandFinder.execute(ctx, args);
     }
 })
 // --- command handler ---

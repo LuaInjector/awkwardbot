@@ -1,5 +1,6 @@
 module.exports = {
     messageType: "text",
+    onlyIn: false,
     commandName: [ "start", "start@rias_gremorybot" ],
     commandDescription: "Starts the bot",
 
