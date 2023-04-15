@@ -6,7 +6,7 @@ module.exports = {
 
     execute(ctx, args) {
         if (ctx.message.chat.type == "private") {
-            ctx.reply("Welcome to Rias Bot! 💕\n\n🌐 Powered by @giravolte", {
+            ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n*Rias* is a *multipurpose* and *useful* bot to manage your *groups* easily!\n\n👉🏻 *Add me in a group* as an *admin* to get started!`, {
                 reply_markup: {
                     inline_keyboard: [
                         [ { text: "Add me", url: "t.me/rias_gremorybot?startgroup=true" } ]

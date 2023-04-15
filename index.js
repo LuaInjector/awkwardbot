@@ -44,4 +44,4 @@ client.on("text", (ctx) => {
 })
 // --- command handler ---
 
-client.launch()
+try { client.launch(); console.log("Succesfully logged in!") } catch(err) { console.log(err) }
