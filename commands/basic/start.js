@@ -14,7 +14,8 @@ module.exports = {
                 }
             })
         } else {
-            // TODO: to avoid this message to repeat, just create some tricks with the database to check whether the bot has been just added or not, like an unix timestamp or something (and check everytime doing the /start command)
+            // TODO: to avoid this message to repeat, just create some tricks with the database to check whether the bot has just been added or not.
+            // EDIT: this is easy af, just need to check if the group is in the database. doing it tomorrow
             ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
         }
     },
