@@ -1,4 +1,5 @@
 const { Telegraf } = require('telegraf')
+const db = require("./utils/db")
 require('dotenv').config()
 
 const client = new Telegraf(process.env.TOKEN)
@@ -44,4 +45,8 @@ client.on("text", (ctx) => {
 })
 // --- command handler ---
 
-try { client.launch(); console.log("Succesfully logged in!") } catch(err) { console.log(err) }
+// --- db ---
+try { db.connect(); console.log("MongoDB: ✅") } catch(err) { console.log(`MongoDB: ❌\nError: ${err}`) }
+// --- db ---
+
+try { client.launch(); console.log("Telegram: ✅") } catch(err) { console.log(`Telegram: ❌\nError: ${err}`) }
