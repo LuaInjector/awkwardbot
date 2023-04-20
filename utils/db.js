@@ -29,6 +29,7 @@ function removeGroup(id) {
 module.exports = {
     dbClient,
     connect,
+    groups,
     addGroup,
     removeGroup
 }
