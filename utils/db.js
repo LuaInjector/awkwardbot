@@ -15,9 +15,7 @@ function connect() {
 const groups = dbClient.db("bot").collection("groups")
 
 function addGroup(id) {
-    const group = {
-        "id": id
-    }
+    const group = { "id": id }
     groups.insertOne(group)
 }
 

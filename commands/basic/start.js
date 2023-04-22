@@ -1,3 +1,5 @@
+const db = require("../../utils/db")
+
 module.exports = {
     messageType: "text",
     onlyIn: false,
@@ -14,9 +16,17 @@ module.exports = {
                 }
             })
         } else {
-            // TODO: to avoid this message to repeat, just create some tricks with the database to check whether the bot has just been added or not.
-            // EDIT: this is easy af, just need to check if the group is in the database. doing it tomorrow
-            ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
+            let groupId = ctx.message.chat.id
+            const query = { "id": groupId }
+
+            db.groups.findOne(query).then((group) => {
+                if (group) {
+                    ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n🔧 To set me up you can either use the \`/settings\` command or the buttons down below`)
+                } else {
+                    ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
+                    db.addGroup(groupId)
+                }
+            })
         }
     },
 }
