@@ -44,8 +44,24 @@ client.on("text", (ctx) => {
 })
 // --- command handler ---
 
+let statuses = []
+
 // --- db ---
-try { db.connect(); console.log("MongoDB: ✅") } catch(err) { console.log(`MongoDB: ❌\nError: ${err}`) }
+try {
+    db.connect()
+    statuses.push({ "service": "MongoDB", "status": "✅" })
+} catch(err) {
+    statuses.push({ "service": "MongoDB", "status": "❌" })
+    console.log(`MongoDB Error: ${err}`)
+}
 // --- db ---
 
-try { client.launch(); console.log("Telegram: ✅") } catch(err) { console.log(`Telegram: ❌\nError: ${err}`) }
+try {
+    client.launch()
+    statuses.push({ "service": "Telegram", "status": "✅" })
+} catch(err) {
+    statuses.push({ "service": "Telegram", "status": "❌" })
+    console.log(`Telegram Error: ${err}`)
+}
+
+console.table(statuses)
