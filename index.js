@@ -49,18 +49,18 @@ let statuses = []
 // --- db ---
 try {
     db.connect()
-    statuses.push({ "service": "MongoDB", "status": "✅" })
+    statuses.push({ service: "MongoDB", status: "✅" })
 } catch(err) {
-    statuses.push({ "service": "MongoDB", "status": "❌" })
+    statuses.push({ service: "MongoDB", status: "❌" })
     console.log(`MongoDB Error: ${err}`)
 }
 // --- db ---
 
 try {
     client.launch()
-    statuses.push({ "service": "Telegram", "status": "✅" })
+    statuses.push({ service: "Telegram", status: "✅" })
 } catch(err) {
-    statuses.push({ "service": "Telegram", "status": "❌" })
+    statuses.push({ service: "Telegram", status: "❌" })
     console.log(`Telegram Error: ${err}`)
 }
 
