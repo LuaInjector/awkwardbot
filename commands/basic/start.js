@@ -16,17 +16,7 @@ module.exports = {
                 }
             })
         } else {
-            let groupId = ctx.message.chat.id
-            const query = { "id": groupId }
-
-            db.groups.findOne(query).then((group) => {
-                if (group) {
-                    ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n🔧 To set me up you can either use the \`/settings\` command or the buttons down below`)
-                } else {
-                    ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
-                    db.addGroup(groupId)
-                }
-            })
+            ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n🔧 To set me up you can either use the \`/settings\` command or the buttons down below`)
         }
     },
 }

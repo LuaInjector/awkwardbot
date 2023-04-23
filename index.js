@@ -64,4 +64,20 @@ try {
     console.log(`Telegram Error: ${err}`)
 }
 
+client.on("my_chat_member", (ctx) => {
+    let chatType = ctx.myChatMember.chat.type
+    let groupId = ctx.myChatMember.chat.id
+    let chatMemberStatus = ctx.myChatMember.new_chat_member.status
+    if (chatType === "group" || chatType === "supergroup") {
+        if (chatMemberStatus === "left") {
+            db.removeGroup(groupId)
+        } else {
+            ctx.replyWithMarkdownV2("📌 Thank you for adding me to the group\\!\n👉🏻 Use the `/help` command to get started\\!")
+            db.addGroup(groupId)
+        }
+    } else {
+        return
+    }
+})
+
 console.table(statuses)
