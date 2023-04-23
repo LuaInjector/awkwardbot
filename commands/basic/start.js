@@ -6,7 +6,7 @@ module.exports = {
     commandName: [ "start", "start@rias_gremorybot" ],
     commandDescription: "Starts the bot",
 
-    execute(ctx, args) {
+    execute(client, ctx, args) {
         if (ctx.message.chat.type == "private") {
             ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n*Rias* is a *multipurpose* and *useful* bot to manage your *groups* easily!\n\n👉🏻 *Add me in a group* as an *admin* to get started!`, {
                 reply_markup: {

@@ -4,7 +4,7 @@ module.exports = {
     commandName: "unix",
     commandDescription: "Converts UNIX timestamp to date",
     
-    execute(ctx, args) {
+    execute(client, ctx, args) {
         if (!args[0]) {
             ctx.replyWithMarkdown("❌ *Error*\nYou must provide an input to use this command!")
         } else {
