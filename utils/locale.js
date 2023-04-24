@@ -44,4 +44,3 @@ function getLocale(language, string, varTemplating) {
 module.exports = {
     getLocale
 }
-// console.log(getLocale("en", "errors.OnlyDM", ['10']))
