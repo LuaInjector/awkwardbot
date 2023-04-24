@@ -1,4 +1,4 @@
-const db = require("../../utils/db")
+const { getLocale } = require("../../utils/locale")
 
 module.exports = {
     messageType: "text",
@@ -6,17 +6,17 @@ module.exports = {
     commandName: [ "start", "start@rias_gremorybot" ],
     commandDescription: "Starts the bot",
 
-    execute(client, ctx, args) {
+    execute(client, ctx, args, language) {
         if (ctx.message.chat.type == "private") {
-            ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n*Rias* is a *multipurpose* and *useful* bot to manage your *groups* easily!\n\n👉🏻 *Add me in a group* as an *admin* to get started!`, {
+            ctx.replyWithMarkdown(getLocale(language, "DM.commands.basic.start"), {
                 reply_markup: {
                     inline_keyboard: [
-                        [ { text: "Add me", url: "t.me/rias_gremorybot?startgroup=true" } ]
+                        [ { text: getLocale(language, "DM.commands.basic.start.inline"), url: "t.me/rias_gremorybot?startgroup=true" } ]
                     ]
                 }
             })
         } else {
-            ctx.replyWithMarkdown(`👋🏻 Hey *${ctx.update.message.from.first_name}*!\n🔧 To set me up you can either use the \`/settings\` command or the buttons down below`)
+            ctx.replyWithMarkdown(getLocale(language, "GROUP.commands.basic.start", [ctx.update.message.from.first_name]))
         }
     },
 }

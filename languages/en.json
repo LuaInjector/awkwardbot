@@ -1,5 +1,13 @@
 {
-    "errors": {
-        "onlyGroups": "❌ *Error*\nThis command can only be used in Groups!"
-    }
+    "DM.commands.basic.start": "👋🏻 Hey *${ctx.update.message.from.first_name}*!\n*Rias* is a *multipurpose* and *useful* bot to manage your *groups* easily!\n\n👉🏻 *Add me in a group* as an *admin* to get started!",
+    "DM.commands.basic.start.inline": "Add me",
+    "DM.errors.onlyGroups": "❌ *Error*\nThis command can only be used in Groups!",
+
+    "GROUP.errors.OnlyDM": "❌ *Error*\nThis command can only be used in DM!",
+    "GROUP.errors.noInput": "❌ *Error*\nYou must provide an input to use this command!",
+    "GROUP.errors.basic.language.invalidInput": "❌ *Error*\nThis language isn't currently supported\n👉🏻 Supported languages: %0",
+    "GROUP.errors.misc.unix.wrongArgType": "❌ *Error*\nUNIX timestamps must be numbers!",
+
+    "GROUP.commands.basic.start": "👋🏻 Hey *%0*!\n🔧 To set me up you can either use the `/settings` command or the buttons down below"
+
 }

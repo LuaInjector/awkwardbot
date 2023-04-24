@@ -1,5 +1,8 @@
 {
-    "errors": {
-        "onlyGroups": "❌ *Errore*\nQuesto comando può essere usato solo nei Gruppi!"
-    }
+    "GROUP.errors.OnlyDM": "❌ *Errore*\nQuesto comando può essere usato solo in DM!",
+    "GROUP.errors.noInput": "❌ *Errore*\nDevi dare un input per usare questo comando!",
+    "GROUP.errors.basic.language.invalidInput": "❌ *Error*\nQuesta lingua non è attualmente supportata\n👉🏻 Lingue supportate: %0",
+    "GROUP.errors.misc.unix.wrongArgType": "❌ *Errore*\nI timestamp UNIX devono essere numeri!",
+
+    "GROUP.commands.basic.start": "👋🏻 Hey *%0*!\n🔧 Per settarmi puoi sia usare il comando `/settings` sia i bottoni sotto"
 }

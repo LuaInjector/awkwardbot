@@ -1,13 +1,13 @@
 const { Telegraf } = require('telegraf')
 const db = require("./utils/db")
+const fs = require("fs")
+const path = require("path")
+const { getLocale } = require("./utils/locale")
 require('dotenv').config()
 
 const client = new Telegraf(process.env.TOKEN)
 
 // --- command handler ---
-const fs = require("fs")
-const path = require("path")
-
 const _COMMANDSFOLDER = "./commands"
 const _PREFIX = "/"
 
@@ -28,7 +28,9 @@ for (const folder of commandsFolder) {
  }
 }
 
-client.on("text", (ctx) => {
+client.on("text", async (ctx) => {
+    let language = db.fetchGroupLanguage(ctx.message.chat.id, ctx)
+
     if(!ctx.message.text.startsWith(_PREFIX)) return 
     
     const args = ctx.message.text.slice(_PREFIX.length).split(/ +/g)
@@ -36,10 +38,9 @@ client.on("text", (ctx) => {
 
     const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.includes(command)) : (cmd.commandName === command))
     if (typeof commandFinder !== "undefined" && commandFinder.execute) {
-        if (commandFinder.onlyIn === "group" && ["group", "supergroup"].every(k => k !== ctx.message.chat.type)) return ctx.replyWithMarkdown("❌ *Error*\nThis command can only be used in Groups!")
-        if (commandFinder.onlyIn === "dm" && (ctx.message.chat.type !== "private")) return ctx.replyWithMarkdown("❌ *Error*\nThis command can only be used in DM!")
-    
-        commandFinder.execute(ctx, args);
+        if (commandFinder.onlyIn === "group" && ["group", "supergroup"].every(k => k !== ctx.message.chat.type)) return ctx.replyWithMarkdown(getLocale(language, "DM.errors.onlyGroups"))
+        if (commandFinder.onlyIn === "dm" && (ctx.message.chat.type !== "private")) return ctx.replyWithMarkdown(getLocale(language, "GROUP.errors.OnlyDM"))
+        commandFinder.execute(client, ctx, args, language)
     }
 })
 // --- command handler ---
