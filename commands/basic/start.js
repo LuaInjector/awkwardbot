@@ -8,7 +8,7 @@ module.exports = {
 
     execute(client, ctx, args, language) {
         if (ctx.message.chat.type == "private") {
-            ctx.replyWithMarkdown(getLocale(language, "DM.commands.basic.start"), {
+            ctx.replyWithMarkdown(getLocale(language, "DM.commands.basic.start", [ctx.update.message.from.first_name]), {
                 reply_markup: {
                     inline_keyboard: [
                         [ { text: getLocale(language, "DM.commands.basic.start.inline"), url: "t.me/rias_gremorybot?startgroup=true" } ]

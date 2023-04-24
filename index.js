@@ -29,7 +29,7 @@ for (const folder of commandsFolder) {
 }
 
 client.on("text", async (ctx) => {
-    let language = db.fetchGroupLanguage(ctx.message.chat.id, ctx)
+    let language = await db.fetchGroupLanguage(ctx.message.chat.id, ctx)
 
     if(!ctx.message.text.startsWith(_PREFIX)) return 
     
@@ -73,7 +73,7 @@ client.on("my_chat_member", (ctx) => {
         if (chatMemberStatus === "left") {
             db.removeGroup(groupId)
         } else {
-            ctx.replyWithMarkdownV2("📌 Thank you for adding me to the group\\!\n👉🏻 Use the `/help` command to get started\\!")
+            ctx.replyWithMarkdown("📌 Thank you for adding me to the group\\!\n👉🏻 Use the `/help` command to get started\\!")
             db.addGroup(groupId)
         }
     } else {

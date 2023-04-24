@@ -4,5 +4,7 @@
     "GROUP.errors.basic.language.invalidInput": "❌ *Errore*\nQuesta lingua non è attualmente supportata\n👉🏻 Lingue supportate: %0",
     "GROUP.errors.misc.unix.wrongArgType": "❌ *Errore*\nI timestamp UNIX devono essere numeri!",
 
-    "GROUP.commands.basic.start": "👋🏻 Hey *%0*!\n🔧 Per settarmi puoi sia usare il comando `/settings` sia i bottoni sotto"
+    "GROUP.commands.basic.start": "👋🏻 Hey *%0*!\n🔧 Per settarmi puoi sia usare il comando `/settings` sia i bottoni sotto",
+
+    "GROUP.basic.language.languageChange": "✅ La lingua è stata cambiata a `%0!`"
 }
