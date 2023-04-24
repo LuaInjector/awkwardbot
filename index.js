@@ -29,7 +29,7 @@ for (const folder of commandsFolder) {
 }
 
 client.on("text", async (ctx) => {
-    let language = await db.fetchGroupLanguage(ctx.message.chat.id, ctx)
+    let language = await db.fetchGroupLanguage(db, ctx.message.chat.id, ctx)
 
     if(!ctx.message.text.startsWith(_PREFIX)) return 
     

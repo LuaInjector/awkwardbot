@@ -28,8 +28,8 @@ function removeGroup(id) {
     groups.deleteOne(query)
 }
 
-async function fetchGroupLanguage(groupId, ctx) {
-    if (["group", "supergroup"].every(k => k === ctx.message.chat.type)) {
+async function fetchGroupLanguage(db, groupId, ctx) {
+    if (["group", "supergroup"].some(k => k === ctx.message.chat.type)) {
         const group = await db.groups.findOne({ "id": groupId })
         return group.language
     } else {
