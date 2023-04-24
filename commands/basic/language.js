@@ -16,7 +16,7 @@ module.exports = {
                 ctx.replyWithMarkdown(getLocale(language, "GROUP.errors.basic.language.invalidInput", [availableLanguages.map(k => k = `\`${k}\``).join(" - ")]))
             } else {
                 db.groups.findOneAndUpdate({ "id": ctx.message.chat.id }, { $set: { "language": args[0] } })
-                ctx.replyWithMarkdown(getLocale(language, "GROUP.basic.language.languageChange", [args[0]]))
+                ctx.replyWithMarkdown(getLocale(args[0], "GROUP.basic.language.languageChange", [args[0]]))
             }
         }
     },
