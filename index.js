@@ -78,8 +78,10 @@ client.on("my_chat_member", async (ctx) => {
         if (chatMemberStatus === "member") {
             await ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
             db.addGroup(groupId)
-        } else {
+        } else if (chatMemberStatus === "left") {
             await db.removeGroup(groupId)
+        } else {
+            return
         }
     } else {
         return
