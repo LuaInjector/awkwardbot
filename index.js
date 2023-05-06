@@ -7,6 +7,30 @@ require('dotenv').config()
 
 const client = new Telegraf(process.env.TOKEN)
 
+async function main() { // used for statuses, db and telegram client connection, etc...
+    let statuses = []
+
+    // --- db ---
+    try {
+        await db.connect()
+        statuses.push({ service: "MongoDB", status: "✅" })
+    } catch(err) {
+        statuses.push({ service: "MongoDB", status: "❌" })
+        console.log(`MongoDB Error: ${err}`)
+    }
+    // --- db ---
+
+    try {
+        await client.launch()
+        statuses.push({ service: "Telegram", status: "✅" })
+    } catch(err) {
+        statuses.push({ service: "Telegram", status: "❌" })
+        console.log(`Telegram Error: ${err}`)
+    }
+
+    console.table(statuses)
+}
+
 // --- command handler ---
 const _COMMANDSFOLDER = "./commands"
 const _PREFIX = "/"
@@ -31,54 +55,35 @@ for (const folder of commandsFolder) {
 client.on("text", async (ctx) => {
     let language = await db.fetchGroupLanguage(db, ctx.message.chat.id, ctx)
 
-    if(!ctx.message.text.startsWith(_PREFIX)) return 
+    if (!ctx.message.text.startsWith(_PREFIX)) return 
     
     const args = ctx.message.text.slice(_PREFIX.length).split(/ +/g)
     const command = args.shift()
 
     const commandFinder = commands.filter(cmd => cmd.messageType === "text").find(cmd => Array.isArray(cmd.commandName) ? (cmd.commandName.includes(command)) : (cmd.commandName === command))
     if (typeof commandFinder !== "undefined" && commandFinder.execute) {
-        if (commandFinder.onlyIn === "group" && ["group", "supergroup"].every(k => k !== ctx.message.chat.type)) return ctx.replyWithMarkdown(getLocale(language, "DM.errors.onlyGroups"))
-        if (commandFinder.onlyIn === "dm" && (ctx.message.chat.type !== "private")) return ctx.replyWithMarkdown(getLocale(language, "GROUP.errors.OnlyDM"))
-        commandFinder.execute(client, ctx, args, language)
+        if (commandFinder.onlyIn === "group" && ["group", "supergroup"].every(k => k !== ctx.message.chat.type)) return await ctx.replyWithMarkdown(getLocale(language, "DM.errors.onlyGroups"))
+        if (commandFinder.onlyIn === "dm" && (ctx.message.chat.type !== "private")) return await ctx.replyWithMarkdown(getLocale(language, "GROUP.errors.OnlyDM"))
+        await commandFinder.execute(client, ctx, args, language)
     }
 })
 // --- command handler ---
 
-let statuses = []
-
-// --- db ---
-try {
-    db.connect()
-    statuses.push({ service: "MongoDB", status: "✅" })
-} catch(err) {
-    statuses.push({ service: "MongoDB", status: "❌" })
-    console.log(`MongoDB Error: ${err}`)
-}
-// --- db ---
-
-try {
-    client.launch()
-    statuses.push({ service: "Telegram", status: "✅" })
-} catch(err) {
-    statuses.push({ service: "Telegram", status: "❌" })
-    console.log(`Telegram Error: ${err}`)
-}
-
-client.on("my_chat_member", (ctx) => {
+client.on("my_chat_member", async (ctx) => {
     let chatType = ctx.myChatMember.chat.type
     let groupId = ctx.myChatMember.chat.id
     let chatMemberStatus = ctx.myChatMember.new_chat_member.status
+    // console.log(chatMemberStatus)
     if (chatType === "group" || chatType === "supergroup") {
-        if (chatMemberStatus === "left") {
-            db.removeGroup(groupId)
-        } else {
-            ctx.replyWithMarkdown("📌 Thank you for adding me to the group\\!\n👉🏻 Use the `/help` command to get started\\!")
+        if (chatMemberStatus === "member") {
+            await ctx.replyWithMarkdown("📌 Thank you for adding me to the group!\n👉🏻 Use the `/help` command to get started!")
             db.addGroup(groupId)
+        } else {
+            await db.removeGroup(groupId)
         }
     } else {
         return
     }
 })
 
-console.table(statuses)
+main()

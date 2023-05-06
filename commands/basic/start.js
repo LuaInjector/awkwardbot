@@ -6,9 +6,9 @@ module.exports = {
     commandName: [ "start", "start@rias_gremorybot" ],
     commandDescription: "Starts the bot",
 
-    execute(client, ctx, args, language) {
+    async execute(client, ctx, args, language) {
         if (ctx.message.chat.type == "private") {
-            ctx.replyWithMarkdown(getLocale(language, "DM.commands.basic.start", [ctx.update.message.from.first_name]), {
+            await ctx.replyWithMarkdown(getLocale(language, "DM.commands.basic.start", [ctx.update.message.from.first_name]), {
                 reply_markup: {
                     inline_keyboard: [
                         [ { text: getLocale(language, "DM.commands.basic.start.inline"), url: "t.me/rias_gremorybot?startgroup=true" } ]
@@ -16,7 +16,7 @@ module.exports = {
                 }
             })
         } else {
-            ctx.replyWithMarkdown(getLocale(language, "GROUP.commands.basic.start", [ctx.update.message.from.first_name]))
+            await ctx.replyWithMarkdown(getLocale(language, "GROUP.commands.basic.start", [ctx.update.message.from.first_name]))
         }
     },
 }

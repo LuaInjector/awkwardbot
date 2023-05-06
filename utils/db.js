@@ -1,4 +1,3 @@
-const { group } = require("console")
 const { MongoClient } = require("mongodb")
 
 const path = require("path")
@@ -7,25 +6,23 @@ const MONGO_ACCESS_URI = process.env.MONGO_ACCESS_URI
 
 const dbClient = new MongoClient(MONGO_ACCESS_URI)
 
-function connect() {
-    dbClient.connect(err => {
-        if (err) console.log(err)
-    })
+async function connect() {
+    await dbClient.connect().catch((err) => { console.log(err) })
 }
 
 const groups = dbClient.db("bot").collection("groups")
 
-function addGroup(id) {
+async function addGroup(id) {
     const group = { 
         "id": id,
         "language": "en"
     }
-    groups.insertOne(group)
+    await groups.insertOne(group)
 }
 
-function removeGroup(id) {
+async function removeGroup(id) {
     const query = { "id": id }
-    groups.deleteOne(query)
+    await groups.deleteOne(query)
 }
 
 async function fetchGroupLanguage(db, groupId, ctx) {
